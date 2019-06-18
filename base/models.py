@@ -20,6 +20,9 @@ class Product(models.Model):
     def get_price(self):
         return "{}$".format(self.price)
 
+    def __str__(self):
+        return "{} - {} - {}".format(self.name, self.price, self.type)
+
 
 class Member(AbstractUser):
     pass
