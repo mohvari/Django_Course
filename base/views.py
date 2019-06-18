@@ -1,9 +1,9 @@
 import csv
+from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView
-
 from base.models import Product
 
 
@@ -12,9 +12,9 @@ class AboutView(TemplateView):
 
 
 class ProductView(View):
-    def get(self, request, produc_id):
-        product = get_object_or_404(Product, pk=None)
-        return
+    def get(self, request, product_id):
+        product_ret = get_object_or_404(Product, pk=product_id)
+        return render(request, 'product.html', {'product': product_ret})
 
 
 def report(request):
@@ -27,3 +27,7 @@ def report(request):
     writer.writerow(['Hello', 'Here I am'])
     return response
 
+
+def home(request):
+    current_time = datetime.now()
+    return render(request, "home.html", {'current_time': current_time})

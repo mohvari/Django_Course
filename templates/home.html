@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    The current time is:
+    {{ current_time }}
+    <br><br>
+    Now I want to use filter:
+    {{ current_time | date:'Y-m-d' }}
+    <br><br>
+    Here is the if and for statement:
+    <br>
+    {% if 3 > 7 %}
+        3 is greater than 7!
+    {% else %}
+        But: 3 is lower than 7.
+    {% endif %}
+    <br><br>
+
+{% endblock %}

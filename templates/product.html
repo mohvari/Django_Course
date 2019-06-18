@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load basetags %}
+{% block title %}
+    Product Page
+{% endblock %}
+
+{% block body %}
+    This page is about the product which has these features:
+    <br>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Type</th>
+  </tr>
+  <tr>
+    <td>{{ product.name }}</td>
+    <td>{{ product.pric }}</td>
+    <td>{{ product.type }}</td>
+  </tr>
+</table>
+    <br>
+    Now I am using get_price:
+    <br>
+    The price of the product is: {{ product.get_price }}
+    <br><br>
+    Here I am using Template Tag:
+    <br>
+    The price of the product is: {{ product.price |price_format}}
+{% endblock %}

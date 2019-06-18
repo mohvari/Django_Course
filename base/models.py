@@ -5,6 +5,9 @@ from django.db import models
 class ProductType(models.Model):
     title = models.CharField(max_length=256, verbose_name="عنوان")
 
+    def __str__(self):
+        return self.title
+
 
 class Product(models.Model):
     name = models.CharField(max_length=128, verbose_name="نام")
@@ -13,6 +16,9 @@ class Product(models.Model):
 
     class Meta:
         unique_together = ('name', 'type')
+
+    def get_price(self):
+        return "{}$".format(self.price)
 
 
 class Member(AbstractUser):
