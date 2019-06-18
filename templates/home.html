@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load basetags %}
+
 {% block title %}
     Home
 {% endblock %}
@@ -7,9 +9,11 @@
     The current time is:
     {{ current_time }}
     <br><br>
+
     Now I want to use filter:
     {{ current_time | date:'Y-m-d' }}
     <br><br>
+
     Here is the if and for statement:
     <br>
     {% if 3 > 7 %}
@@ -18,5 +22,12 @@
         But: 3 is lower than 7.
     {% endif %}
     <br><br>
+
+    Now I want to use Template Tag:
+    <br>
+    {% get_time "%Y/%m/%d" as current_time_tag%}
+    {{ current_time_tag }}
+    <br><br>
+
 
 {% endblock %}
