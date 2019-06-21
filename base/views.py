@@ -44,7 +44,7 @@ def report(request):
     return response
 
 
-@login_required
+# @login_required
 def home(request):
     product_list = Product.objects.all()
     paginator = Paginator(product_list, INSTANCE_PER_PAGE)
@@ -84,7 +84,7 @@ def signup_first(request):
 class SignupView(FormView):
     template_name = 'signup_form.html'
     form_class = SignupForm
-    success_url = '/login' # or we can say reverse_lazy('login-view')
+    success_url = '/login'  # or we can say reverse_lazy('login-view')
 
 
 def signup_success(request):
