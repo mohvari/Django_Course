@@ -25,4 +25,4 @@ class Product(models.Model):
 
 
 class Member(AbstractUser):
-    pass
+    image = models.ImageField(null=True)
