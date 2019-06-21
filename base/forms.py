@@ -17,7 +17,7 @@ class SignupForm(UserCreationForm):
 
     class Meta:
         model = Member
-        fields = ('first_name', 'last_name', 'username', 'email', 'image')
+        fields = ('first_name', 'last_name', 'username', 'email')
 
     def clean_agreement(self):
         if not self.cleaned_data.get('agreement'):

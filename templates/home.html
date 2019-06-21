@@ -6,6 +6,13 @@
 {% endblock %}
 
 {% block body %}
+    Hello
+    {% if user.is_authenticated %}
+        {{ name }}
+    {% else %}
+        <a href="{% url 'login-view' %}"> Login</a>
+    {% endif %}
+    <br><br>
     The current time is:
     {{ current_time }}
     <br><br>
