@@ -1,11 +1,14 @@
 import csv
 from datetime import datetime
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from base.consts import INSTANCE_PER_PAGE
-from base.forms import SignupForm
+from base.forms import SignupForm, LoginForm
 from base.models import Product, ProductType
 from django.core.paginator import Paginator
 
@@ -19,7 +22,7 @@ class ProductView(View):
         product_ret = get_object_or_404(Product, pk=product_id)
         return render(request, 'product.html', {'product': product_ret})
 
-    def create(self, name, price = 1000, type_p = -1):
+    def create(self, name, price=1000):
         Product.objects.create(name=name, price=price)
 
 
@@ -41,6 +44,7 @@ def report(request):
     return response
 
 
+@login_required
 def home(request):
     product_list = Product.objects.all()
     paginator = Paginator(product_list, INSTANCE_PER_PAGE)
@@ -64,20 +68,48 @@ def signup_first(request):
     return render(request, 'signup_form.html', {'form': form})
 
 
-def signup(request):
-    form = None
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            print('Iam here!')
-            form.save()
-            return HttpResponse("Member is Created!")
-    else:
-        form = SignupForm()
-    return render(request, 'signup_form.html', {'form': form})
+# def signup(request):
+#     form = None
+#     if request.method == 'POST':
+#         form = SignupForm(request.POST)
+#         if form.is_valid():
+#             # print('Iam here!')
+#             form.save()
+#             return redirect(reverse('login-view'))
+#     else:
+#         form = SignupForm()
+#     return render(request, 'signup_form.html', {'form': form})
+
+
+class SignupView(FormView):
+    template_name = 'signup_form.html'
+    form_class = SignupForm
+    success_url = '/login' # or we can say reverse_lazy('login-view')
 
 
 def signup_success(request):
     return render(request, 'success.html')
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            print(username)
+            password_raw = form.cleaned_data.get('password')
+            print(password_raw)
+            user = authenticate(username=username, password=password_raw)
+            if user is not None:
+                login(request, user)
+                print(user)
+                return redirect(reverse('home'))
+            else:
+                print(form.errors)
+                return redirect(reverse('signup-class-view'))
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
 
 
